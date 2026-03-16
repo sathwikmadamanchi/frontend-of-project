@@ -1,0 +1,1966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project AEGIS — Secure Service Delivery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --night: #070b14;
+  --deep: #0d1626;
+  --surface: #111d35;
+  --card: #152040;
+  --border: #1e2f50;
+  --border2: #2a4070;
+  --text: #e8eef8;
+  --text2: #8fa4c8;
+  --text3: #4a6090;
+  --green: #00e5a0;
+  --green-dim: #003d2b;
+  --blue: #3b82f6;
+  --blue-dim: #0d2148;
+  --purple: #a855f7;
+  --purple-dim: #2a0d4a;
+  --amber: #f59e0b;
+  --amber-dim: #3a2200;
+  --red: #ef4444;
+  --red-dim: #3a0d0d;
+  --teal: #06b6d4;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Instrument Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --r: 10px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--night);
+  font-family: var(--font-body);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ══════════ LANDING ══════════ */
+#landing {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+.orb1 { width: 600px; height: 600px; background: rgba(59,130,246,0.07); top: -100px; left: -150px; }
+.orb2 { width: 400px; height: 400px; background: rgba(0,229,160,0.06); bottom: -50px; right: -100px; }
+.orb3 { width: 300px; height: 300px; background: rgba(168,85,247,0.05); top: 40%; left: 50%; transform: translate(-50%,-50%); }
+
+.landing-inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 860px;
+  padding: 0 24px;
+  animation: fadeUp 0.9s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.shield-icon {
+  width: 72px; height: 72px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, var(--blue), var(--green));
+  border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  box-shadow: 0 0 40px rgba(59,130,246,0.3), 0 0 80px rgba(0,229,160,0.1);
+  animation: pulse-shield 3s ease-in-out infinite;
+}
+
+@keyframes pulse-shield {
+  0%, 100% { box-shadow: 0 0 40px rgba(59,130,246,0.3), 0 0 80px rgba(0,229,160,0.1); }
+  50% { box-shadow: 0 0 60px rgba(59,130,246,0.5), 0 0 120px rgba(0,229,160,0.15); }
+}
+
+.project-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.25);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--blue);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.project-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: blink 2s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+.landing-title {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 7vw, 80px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #ffffff 0%, #8fa4c8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.landing-sub {
+  font-size: 17px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-bottom: 48px;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.role-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.role-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 28px 20px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.role-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.25s;
+  border-radius: var(--r);
+}
+.role-card.citizen::before { background: radial-gradient(ellipse at top, rgba(0,229,160,0.08), transparent 60%); }
+.role-card.partner::before { background: radial-gradient(ellipse at top, rgba(59,130,246,0.08), transparent 60%); }
+.role-card.admin::before   { background: radial-gradient(ellipse at top, rgba(168,85,247,0.08), transparent 60%); }
+
+.role-card:hover::before { opacity: 1; }
+.role-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+.role-card.citizen:hover { border-color: rgba(0,229,160,0.4); box-shadow: 0 8px 32px rgba(0,229,160,0.1); }
+.role-card.partner:hover  { border-color: rgba(59,130,246,0.4); box-shadow: 0 8px 32px rgba(59,130,246,0.1); }
+.role-card.admin:hover    { border-color: rgba(168,85,247,0.4); box-shadow: 0 8px 32px rgba(168,85,247,0.1); }
+
+.role-card-icon {
+  font-size: 30px;
+  margin-bottom: 14px;
+  display: block;
+}
+.role-card-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.role-card-desc {
+  font-size: 12.5px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.role-card-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+.citizen .role-card-tag  { background: var(--green-dim); color: var(--green); }
+.partner .role-card-tag  { background: var(--blue-dim); color: var(--blue); }
+.admin .role-card-tag    { background: var(--purple-dim); color: var(--purple); }
+
+.enter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--blue), #1e4fc9);
+  color: white;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  letter-spacing: 0.2px;
+}
+.enter-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(59,130,246,0.35); }
+
+.landing-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -1px;
+}
+.stat-label { font-size: 12px; color: var(--text3); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ══════════ APP SHELL ══════════ */
+#app { display: none; min-height: 100vh; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 240px;
+  background: var(--deep);
+  border-right: 1px solid var(--border);
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sidebar-logo-icon {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--blue), var(--green));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+.sidebar-logo-text { font-family: var(--font-display); font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+.sidebar-logo-sub  { font-size: 10px; color: var(--text3); font-family: var(--font-mono); }
+
+.sidebar-role-badge {
+  margin: 12px 14px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.role-citizen { background: var(--green-dim); border: 1px solid rgba(0,229,160,0.2); color: var(--green); }
+.role-partner  { background: var(--blue-dim);  border: 1px solid rgba(59,130,246,0.2);  color: var(--blue); }
+.role-admin   { background: var(--purple-dim); border: 1px solid rgba(168,85,247,0.2); color: var(--purple); }
+
+.nav-section { padding: 16px 14px 6px; }
+.nav-section-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text3);
+  padding: 0 6px;
+  margin-bottom: 4px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 7px;
+  font-size: 13px;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: 2px;
+}
+.nav-item:hover { background: var(--surface); color: var(--text); }
+.nav-item.active { background: var(--card); color: var(--text); font-weight: 500; }
+.nav-item.active .nav-icon { filter: none; }
+.nav-icon { font-size: 15px; width: 20px; text-align: center; opacity: 0.7; }
+.nav-item.active .nav-icon { opacity: 1; }
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 14px;
+  border-top: 1px solid var(--border);
+}
+.logout-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 7px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.logout-btn:hover { background: var(--red-dim); border-color: rgba(239,68,68,0.3); color: var(--red); }
+
+/* MAIN CONTENT */
+.main-content {
+  margin-left: 240px;
+  min-height: 100vh;
+}
+
+.topbar {
+  background: var(--deep);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.topbar-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.network-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--green);
+  background: var(--green-dim);
+  border: 1px solid rgba(0,229,160,0.2);
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+.network-badge::before { content: ''; width: 5px; height: 5px; background: var(--green); border-radius: 50%; box-shadow: 0 0 6px var(--green); animation: blink 2s infinite; }
+
+.page { display: none; padding: 32px; animation: fadeIn 0.3s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+
+/* ══════════ COMPONENTS ══════════ */
+.page-header { margin-bottom: 28px; }
+.page-header h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  margin-bottom: 5px;
+}
+.page-header p { font-size: 14px; color: var(--text2); line-height: 1.6; }
+
+/* STAT CARDS */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px;
+  transition: border-color 0.2s;
+}
+.stat-card:hover { border-color: var(--border2); }
+.stat-card-label { font-size: 11.5px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; font-family: var(--font-mono); }
+.stat-card-value { font-family: var(--font-display); font-size: 32px; font-weight: 800; letter-spacing: -1px; line-height: 1; margin-bottom: 8px; }
+.stat-card-meta { font-size: 12px; color: var(--text3); }
+.stat-up   { color: var(--green); }
+.stat-warn { color: var(--amber); }
+.stat-blue { color: var(--blue); }
+.stat-purple { color: var(--purple); }
+
+/* TABLE */
+.data-table-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.data-table-head {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.data-table-head h3 { font-family: var(--font-display); font-size: 15px; font-weight: 700; }
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text3);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  font-family: var(--font-mono);
+}
+td {
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(30,47,80,0.5);
+  font-size: 13px;
+  vertical-align: middle;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(59,130,246,0.03); }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.2px;
+}
+.badge-green  { background: var(--green-dim);  color: var(--green); }
+.badge-blue   { background: var(--blue-dim);   color: var(--blue); }
+.badge-amber  { background: var(--amber-dim);  color: var(--amber); }
+.badge-red    { background: var(--red-dim);    color: var(--red); }
+.badge-purple { background: var(--purple-dim); color: var(--purple); }
+.badge-teal   { background: rgba(6,182,212,0.12); color: var(--teal); }
+.badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+/* HASH */
+.hash {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text3);
+  background: var(--surface);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+/* CARDS */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.card h3 { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+
+/* FORM */
+.form-group { margin-bottom: 18px; }
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-family: var(--font-mono);
+}
+.form-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 11px 14px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.form-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+.form-input::placeholder { color: var(--text3); }
+select.form-input { cursor: pointer; }
+option { background: var(--surface); }
+
+/* BUTTONS */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 7px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+}
+.btn-primary { background: var(--blue); color: white; }
+.btn-primary:hover { background: #2563eb; box-shadow: 0 4px 16px rgba(59,130,246,0.3); }
+.btn-green { background: var(--green); color: var(--night); }
+.btn-green:hover { box-shadow: 0 4px 16px rgba(0,229,160,0.3); }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text2); }
+.btn-outline:hover { border-color: var(--border2); color: var(--text); background: var(--surface); }
+.btn-sm { padding: 6px 13px; font-size: 12px; }
+.btn-danger { background: var(--red-dim); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+.btn-danger:hover { background: rgba(239,68,68,0.2); }
+
+/* ALERT */
+.alert {
+  display: flex;
+  gap: 12px;
+  padding: 13px 16px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  border: 1px solid;
+}
+.alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.alert-info    { background: var(--blue-dim);   border-color: rgba(59,130,246,0.3);  color: #93c5fd; }
+.alert-success { background: var(--green-dim);  border-color: rgba(0,229,160,0.3);   color: #6ee7b7; }
+.alert-warn    { background: var(--amber-dim);  border-color: rgba(245,158,11,0.3);  color: #fcd34d; }
+.alert-danger  { background: var(--red-dim);    border-color: rgba(239,68,68,0.3);   color: #fca5a5; }
+
+/* LEDGER BLOCK VIZ */
+.ledger-chain {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 24px;
+}
+.block-node {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  min-width: 160px;
+  flex-shrink: 0;
+  position: relative;
+}
+.block-node::after {
+  content: '→';
+  position: absolute;
+  right: -18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text3);
+  font-size: 16px;
+  z-index: 1;
+}
+.block-node:last-child::after { display: none; }
+.block-chain-gap { width: 20px; flex-shrink: 0; }
+.block-index { font-family: var(--font-mono); font-size: 10px; color: var(--text3); margin-bottom: 4px; }
+.block-hash-short { font-family: var(--font-mono); font-size: 11px; color: var(--blue); margin-bottom: 6px; }
+.block-meta { font-size: 11px; color: var(--text2); }
+.block-valid { font-size: 10px; color: var(--green); margin-top: 4px; font-family: var(--font-mono); }
+
+/* RECEIPT CARD */
+.receipt-card {
+  background: linear-gradient(135deg, var(--card), var(--deep));
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--green);
+  border-radius: var(--r);
+  padding: 20px 22px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.receipt-card:hover { border-color: rgba(0,229,160,0.4); box-shadow: 0 4px 24px rgba(0,229,160,0.05); }
+.receipt-icon { font-size: 26px; }
+.receipt-info { flex: 1; }
+.receipt-id { font-family: var(--font-mono); font-size: 12px; color: var(--text3); margin-bottom: 3px; }
+.receipt-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.receipt-date { font-size: 12px; color: var(--text3); }
+
+/* VERIFY FORM */
+.verify-result {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 24px;
+  margin-top: 20px;
+}
+.verify-chain-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+.chain-icon { font-size: 20px; }
+.chain-label { color: var(--text2); min-width: 120px; }
+.chain-value { font-family: var(--font-mono); font-size: 11px; }
+
+/* AUTH PAGE */
+#auth-page {
+  display: none;
+  min-height: 100vh;
+  background: var(--night);
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+#auth-page.visible { display: flex; }
+
+.auth-box {
+  background: var(--deep);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  width: 440px;
+  padding: 40px;
+  position: relative;
+  z-index: 2;
+  animation: fadeUp 0.5s ease both;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.auth-role-icon {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  margin: 0 auto 16px;
+}
+.auth-title { font-family: var(--font-display); font-size: 24px; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.5px; }
+.auth-subtitle { font-size: 13.5px; color: var(--text2); line-height: 1.6; }
+
+.auth-step { display: none; }
+.auth-step.active { display: block; }
+
+.mfa-code-input {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 20px 0;
+}
+.mfa-digit {
+  width: 46px; height: 56px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.mfa-digit:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+
+.biometric-scan {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 0;
+}
+.biometric-ring {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  border: 3px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px;
+  position: relative;
+}
+.biometric-ring.scanning {
+  animation: scan-pulse 1.5s ease-in-out infinite;
+  border-color: var(--green);
+}
+.biometric-ring.done {
+  border-color: var(--green);
+  box-shadow: 0 0 24px rgba(0,229,160,0.3);
+}
+@keyframes scan-pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(0,229,160,0.4); }
+  50%      { box-shadow: 0 0 0 16px rgba(0,229,160,0); }
+}
+.biometric-text { font-size: 14px; color: var(--text2); }
+
+/* PROGRESS BAR */
+.progress-bar {
+  height: 3px;
+  background: var(--border);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: 100px;
+  transition: width 0.4s ease;
+}
+
+/* UPLOAD ZONE */
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: var(--r);
+  padding: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 20px;
+}
+.upload-zone:hover { border-color: var(--blue); background: rgba(59,130,246,0.03); }
+.upload-icon { font-size: 40px; margin-bottom: 12px; }
+.upload-text { font-size: 14px; color: var(--text2); }
+.upload-sub  { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+/* ZKP indicator */
+.zkp-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--purple-dim);
+  border: 1px solid rgba(168,85,247,0.25);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #c4b5fd;
+  margin-bottom: 16px;
+}
+
+/* AUDIT LOG */
+.audit-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(30,47,80,0.5);
+}
+.audit-row:last-child { border-bottom: none; }
+.audit-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+.audit-meta { font-size: 11.5px; color: var(--text3); margin-top: 3px; font-family: var(--font-mono); }
+.audit-action { font-size: 13.5px; color: var(--text); font-weight: 500; }
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 24px;
+  width: fit-content;
+}
+.tab-btn {
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--text2);
+  font-family: var(--font-body);
+  transition: all 0.15s;
+}
+.tab-btn.active { background: var(--card); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* TWO-COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+/* ══ SCROLLBAR ══ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--deep); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 900px) {
+  .stat-grid { grid-template-columns: repeat(2,1fr); }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+  .role-cards { grid-template-columns: 1fr; }
+  .landing-stats { gap: 24px; flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ LANDING ══════════ -->
+<div id="landing">
+  <div class="grid-bg"></div>
+  <div class="glow-orb orb1"></div>
+  <div class="glow-orb orb2"></div>
+  <div class="glow-orb orb3"></div>
+
+  <div class="landing-inner">
+    <div class="shield-icon">🛡️</div>
+    <div class="project-badge">Project AEGIS · v1.0 Stable</div>
+    <h1 class="landing-inner">Secure Service Delivery Platform</h1>
+    <p class="landing-sub">Zero-PII e-governance infrastructure. Blockchain-sealed records, biometric authentication, and ZKP-powered privacy — built for national scale.</p>
+
+    <div class="role-cards">
+      <div class="role-card citizen" onclick="enterPortal('citizen')">
+        <span class="role-card-icon">🟢</span>
+        <div class="role-card-title">Citizen Portal</div>
+        <div class="role-card-desc">Submit documents, view receipts and check blockchain verification status.</div>
+        <span class="role-card-tag">Biometric + ZKP</span>
+      </div>
+      <div class="role-card partner" onclick="enterPortal('partner')">
+        <span class="role-card-icon">🔵</span>
+        <div class="role-card-title">Bank / Govt Portal</div>
+        <div class="role-card-desc">Verify documents against the CLIP ledger and query citizen submission status.</div>
+        <span class="role-card-tag">OAuth2 + mTLS</span>
+      </div>
+      <div class="role-card admin" onclick="enterPortal('admin')">
+        <span class="role-card-icon">🟣</span>
+        <div class="role-card-title">Admin Portal</div>
+        <div class="role-card-desc">Full system access — user management, audit logs, and ledger oversight.</div>
+        <span class="role-card-tag">TOTP · 15 min TTL</span>
+      </div>
+    </div>
+
+    <div class="landing-stats">
+      <div class="stat-item">
+        <div class="stat-num" style="color:var(--green)">1,043</div>
+        <div class="stat-label">Blocks Sealed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" style="color:var(--blue)">2.4M</div>
+        <div class="stat-label">Documents Verified</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" style="color:var(--purple)">0</div>
+        <div class="stat-label">Tampering Events</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" style="color:var(--amber)">99.98%</div>
+        <div class="stat-label">Uptime (30d)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ AUTH PAGE ══════════ -->
+<div id="auth-page">
+  <div class="glow-orb orb1"></div>
+  <div class="glow-orb orb2"></div>
+
+  <div class="auth-box" id="auth-box">
+    <!-- Dynamic content injected by JS -->
+  </div>
+</div>
+
+<!-- ══════════ APP SHELL ══════════ -->
+<div id="app">
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🛡️</div>
+      <div>
+        <div class="sidebar-logo-text">AEGIS</div>
+        <div class="sidebar-logo-sub">api.aegis.gov</div>
+      </div>
+    </div>
+
+    <div class="sidebar-role-badge" id="role-badge"></div>
+    <div id="sidebar-nav"></div>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="logout()">
+        <span>⏻</span> Sign Out
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-right">
+        <div class="network-badge">CLIP Ledger Online</div>
+      </div>
+    </div>
+
+    <div id="pages">
+      <!-- Pages injected by JS -->
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════ STATE ═══════════════ */
+let currentRole = null;
+let authStep = 1;
+
+const ROLES = {
+  citizen: {
+    label: 'Citizen Portal',
+    icon: '🟢',
+    colorClass: 'role-citizen',
+    color: '#00e5a0',
+    authSteps: ['biometric'],
+    nav: [
+      { id: 'dashboard', icon: '◈', label: 'Dashboard' },
+      { id: 'submit',    icon: '↑', label: 'Submit Document' },
+      { id: 'receipts',  icon: '✦', label: 'My Receipts' },
+      { id: 'verify',    icon: '⊕', label: 'Verify Hash' },
+    ]
+  },
+  partner: {
+    label: 'Bank / Govt Portal',
+    icon: '🔵',
+    colorClass: 'role-partner',
+    color: '#3b82f6',
+    authSteps: ['credentials+totp'],
+    nav: [
+      { id: 'dashboard', icon: '◈', label: 'Dashboard' },
+      { id: 'verify',    icon: '⊕', label: 'Verify Document' },
+      { id: 'query',     icon: '⌕', label: 'Query Citizen' },
+      { id: 'receipts',  icon: '✦', label: 'Receipt Lookup' },
+    ]
+  },
+  admin: {
+    label: 'Admin Portal',
+    icon: '🟣',
+    colorClass: 'role-admin',
+    color: '#a855f7',
+    authSteps: ['credentials', 'totp'],
+    nav: [
+      { id: 'dashboard', icon: '◈', label: 'Dashboard' },
+      { id: 'users',     icon: '⊞', label: 'User Management' },
+      { id: 'audit',     icon: '◎', label: 'Audit & Ledger' },
+      { id: 'security',  icon: '⚑', label: 'Security Events' },
+    ]
+  }
+};
+
+/* ═══════════════ ROUTING ═══════════════ */
+function enterPortal(role) {
+  currentRole = role;
+  document.getElementById('landing').style.display = 'none';
+  showAuth(role);
+}
+
+function logout() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('landing').style.display = 'flex';
+  currentRole = null;
+}
+
+function showAuth(role) {
+  const ap = document.getElementById('auth-page');
+  ap.classList.add('visible');
+  renderAuth(role, 1);
+}
+
+function renderAuth(role, step) {
+  const cfg = ROLES[role];
+  const box = document.getElementById('auth-box');
+  const totalSteps = cfg.authSteps.length + 1;
+  const pct = Math.round((step / (totalSteps)) * 100);
+
+  let iconBg = role === 'citizen' ? 'background:linear-gradient(135deg,#003d2b,#006644)' :
+               role === 'partner' ? 'background:linear-gradient(135deg,#0d2148,#1e3a8a)' :
+                                   'background:linear-gradient(135deg,#2a0d4a,#4c1d95)';
+
+  let content = '';
+
+  if (step === 1 && role === 'citizen') {
+    content = `
+      <div class="auth-step active">
+        <div class="alert alert-info"><span class="alert-icon">ℹ️</span><div>Your identity is verified via biometric + ZKP. No password needed. Your data stays on your device.</div></div>
+        <div class="biometric-scan">
+          <div class="biometric-ring" id="bio-ring">👆</div>
+          <div class="biometric-text" id="bio-text">Touch the fingerprint sensor to authenticate</div>
+        </div>
+        <button class="btn btn-green" style="width:100%;justify-content:center;margin-top:8px;" onclick="simulateBiometric('${role}')">
+          Scan Fingerprint
+        </button>
+      </div>`;
+  } else if (step === 1 && (role === 'admin' || role === 'partner')) {
+    content = `
+      <div class="auth-step active">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" placeholder="${role === 'admin' ? 'admin@aegis.gov' : 'officer@bank.in'}" id="auth-email">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" placeholder="••••••••••••" id="auth-pass">
+        </div>
+        ${role === 'admin' ? `<div class="form-group"><label class="form-label">Device ID</label><input class="form-input" type="text" placeholder="hw-fingerprint-abc123" id="auth-device"></div>` : `<div class="form-group"><label class="form-label">Organisation Code</label><input class="form-input" type="text" placeholder="ORG-BRANCH-001" id="auth-org"></div>`}
+        <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="nextAuthStep('${role}')">
+          Continue →
+        </button>
+      </div>`;
+  } else if (step === 2 && (role === 'admin' || role === 'partner')) {
+    content = `
+      <div class="auth-step active">
+        <div class="alert alert-warn"><span class="alert-icon">⚠️</span><div>MFA is mandatory. Enter the 6-digit code from your authenticator app. Max 3 attempts allowed.</div></div>
+        <div style="text-align:center;margin-bottom:8px;font-size:13px;color:var(--text2);">Enter TOTP Code</div>
+        <div class="mfa-code-input" id="totp-inputs">
+          <input class="mfa-digit" maxlength="1" oninput="moveFocus(this,0)" inputmode="numeric">
+          <input class="mfa-digit" maxlength="1" oninput="moveFocus(this,1)" inputmode="numeric">
+          <input class="mfa-digit" maxlength="1" oninput="moveFocus(this,2)" inputmode="numeric">
+          <input class="mfa-digit" maxlength="1" oninput="moveFocus(this,3)" inputmode="numeric">
+          <input class="mfa-digit" maxlength="1" oninput="moveFocus(this,4)" inputmode="numeric">
+          <input class="mfa-digit" maxlength="1" oninput="moveFocus(this,5)" inputmode="numeric">
+        </div>
+        <div style="text-align:center;font-size:12px;color:var(--text3);margin-bottom:20px;">30-second window · Google / Microsoft Authenticator</div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="completeAuth('${role}')">
+          Verify & Sign In
+        </button>
+      </div>`;
+  }
+
+  box.innerHTML = `
+    <div class="auth-header">
+      <div class="auth-role-icon" style="${iconBg}">${cfg.icon}</div>
+      <div class="auth-title">${cfg.label}</div>
+      <div class="auth-subtitle">${role === 'citizen' ? 'Biometric identity · ZKP privacy · Offline-capable' : role === 'partner' ? 'OAuth2 + mTLS · TOTP mandatory · Read/verify only' : 'TOTP mandatory · 15-minute token TTL'}</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    ${content}
+    <div style="text-align:center;margin-top:20px;">
+      <button onclick="${step > 1 ? `renderAuth('${role}',${step-1})` : `backToLanding()`}" style="background:none;border:none;color:var(--text3);font-size:12.5px;cursor:pointer;font-family:var(--font-body);">
+        ← ${step > 1 ? 'Back' : 'Choose different portal'}
+      </button>
+    </div>`;
+}
+
+function backToLanding() {
+  document.getElementById('auth-page').classList.remove('visible');
+  document.getElementById('landing').style.display = 'flex';
+}
+
+function moveFocus(el, idx) {
+  const inputs = document.querySelectorAll('.mfa-digit');
+  if (el.value && idx < 5) inputs[idx + 1].focus();
+}
+
+function nextAuthStep(role) {
+  renderAuth(role, 2);
+}
+
+function simulateBiometric(role) {
+  const ring = document.getElementById('bio-ring');
+  const text = document.getElementById('bio-text');
+  ring.classList.add('scanning');
+  text.textContent = 'Generating ZKP proof on device…';
+  setTimeout(() => {
+    ring.innerHTML = '✓';
+    ring.classList.remove('scanning');
+    ring.classList.add('done');
+    text.textContent = 'Identity verified. Signing in…';
+    setTimeout(() => completeAuth(role), 800);
+  }, 2200);
+}
+
+function completeAuth(role) {
+  document.getElementById('auth-page').classList.remove('visible');
+  loadApp(role);
+}
+
+/* ═══════════════ APP ═══════════════ */
+function loadApp(role) {
+  currentRole = role;
+  const cfg = ROLES[role];
+  document.getElementById('app').style.display = 'block';
+
+  // Role badge
+  document.getElementById('role-badge').className = `sidebar-role-badge ${cfg.colorClass}`;
+  document.getElementById('role-badge').innerHTML = `${cfg.icon} <span>${cfg.label}</span>`;
+
+  // Nav
+  const nav = document.getElementById('sidebar-nav');
+  nav.innerHTML = `<div class="nav-section"><div class="nav-section-label">Navigation</div>` +
+    cfg.nav.map((item, i) => `
+      <div class="nav-item ${i===0?'active':''}" onclick="showPage('${item.id}',this)" data-page="${item.id}">
+        <span class="nav-icon">${item.icon}</span>${item.label}
+      </div>`).join('') + `</div>`;
+
+  // Pages
+  renderPages(role);
+  showPage(cfg.nav[0].id);
+}
+
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const page = document.getElementById(`page-${id}`);
+  if (page) page.classList.add('active');
+  if (el) el.classList.add('active');
+  else document.querySelector(`[data-page="${id}"]`)?.classList.add('active');
+
+  const labels = { dashboard:'Dashboard', submit:'Submit Document', receipts:'My Receipts', verify:'Verify Document', query:'Query Citizen', users:'User Management', audit:'Audit & Ledger', security:'Security Events' };
+  document.getElementById('topbar-title').textContent = labels[id] || id;
+}
+
+/* ═══════════════ PAGE RENDERING ═══════════════ */
+function renderPages(role) {
+  const container = document.getElementById('pages');
+  container.innerHTML = '';
+
+  if (role === 'citizen') {
+    container.innerHTML = citizenPages();
+  } else if (role === 'partner') {
+    container.innerHTML = partnerPages();
+  } else if (role === 'admin') {
+    container.innerHTML = adminPages();
+  }
+}
+
+/* ═══════ CITIZEN PAGES ═══════ */
+function citizenPages() {
+  return `
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="page-header">
+      <h1>Welcome back, Citizen</h1>
+      <p>Your documents are sealed on the CLIP blockchain. All hashes computed on-device.</p>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-card-label">Documents Sealed</div>
+        <div class="stat-card-value stat-up">7</div>
+        <div class="stat-card-meta">✦ All verified on-chain</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Latest Block</div>
+        <div class="stat-card-value stat-blue">#1043</div>
+        <div class="stat-card-meta">Sealed 2h ago</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">ZKP Status</div>
+        <div class="stat-card-value stat-up">Active</div>
+        <div class="stat-card-meta">Token: 28 min TTL</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Offline Queue</div>
+        <div class="stat-card-value" style="color:var(--amber);">0</div>
+        <div class="stat-card-meta">All synced ✓</div>
+      </div>
+    </div>
+
+    <div class="zkp-indicator">
+      <span style="font-size:20px;">🔐</span>
+      <div><strong>Zero-PII Active:</strong> Your national ID is never stored server-side. Only SHA-256 hashes reach the ledger. ZKP proof verified by NBBS.</div>
+    </div>
+
+    <div class="data-table-wrap">
+      <div class="data-table-head">
+        <h3>Recent Submissions</h3>
+        <button class="btn btn-sm btn-outline" onclick="showPage('submit', document.querySelector('[data-page=submit]'))">+ New Submission</button>
+      </div>
+      <table>
+        <thead><tr><th>Receipt ID</th><th>Document Type</th><th>Block</th><th>Sealed At</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="hash">rcpt_7f3a2b9c</span></td>
+            <td>Aadhaar</td>
+            <td><span class="hash">#1043</span></td>
+            <td style="color:var(--text2);font-size:12px;">17 Mar 2026, 14:00</td>
+            <td><span class="badge badge-green">sealed</span></td>
+          </tr>
+          <tr>
+            <td><span class="hash">rcpt_4d1e9f2a</span></td>
+            <td>Income Certificate</td>
+            <td><span class="hash">#1039</span></td>
+            <td style="color:var(--text2);font-size:12px;">16 Mar 2026, 09:30</td>
+            <td><span class="badge badge-green">sealed</span></td>
+          </tr>
+          <tr>
+            <td><span class="hash">rcpt_2c8b5e7d</span></td>
+            <td>Property Deed</td>
+            <td><span class="hash">#1031</span></td>
+            <td style="color:var(--text2);font-size:12px;">12 Mar 2026, 17:15</td>
+            <td><span class="badge badge-green">sealed</span></td>
+          </tr>
+          <tr>
+            <td><span class="hash">rcpt_9a6f3c1e</span></td>
+            <td>Passport</td>
+            <td><span class="hash">#1018</span></td>
+            <td style="color:var(--text2);font-size:12px;">08 Mar 2026, 11:00</td>
+            <td><span class="badge badge-green">sealed</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="page" id="page-submit">
+    <div class="page-header">
+      <h1>Submit Document</h1>
+      <p>Hash your document on-device first. Only the 64-char SHA-256 hash is transmitted — never the raw file.</p>
+    </div>
+
+    <div class="alert alert-danger"><span class="alert-icon">🚫</span><div><strong>Never upload raw documents.</strong> The API only accepts SHA-256 hashes. Raw payloads over 64 bytes are rejected server-side.</div></div>
+
+    <div class="two-col">
+      <div class="card">
+        <h3>Hash Your Document</h3>
+        <div class="upload-zone" id="upload-zone" onclick="simulateHash()">
+          <div class="upload-icon">📄</div>
+          <div class="upload-text">Click to select document</div>
+          <div class="upload-sub">SHA-256 hash computed locally — file never leaves your device</div>
+        </div>
+        <div id="hash-result" style="display:none;">
+          <div class="alert alert-success"><span class="alert-icon">✅</span><div>Document hashed on device successfully.</div></div>
+          <div class="form-group">
+            <label class="form-label">Computed SHA-256 Hash</label>
+            <input class="form-input" readonly value="a3f1d9c2e4b5f87c3d2e1a9f6b4c8e7d2a1f3c5b8e4d7a9f2c6e1b3d8a5f7c4e2" style="font-family:var(--font-mono);font-size:11px;">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Submission Details</h3>
+        <div class="form-group">
+          <label class="form-label">Document Type</label>
+          <select class="form-input" id="doc-type">
+            <option value="">Select type…</option>
+            <option value="aadhaar">Aadhaar</option>
+            <option value="passport">Passport</option>
+            <option value="income_certificate">Income Certificate</option>
+            <option value="property_deed">Property Deed</option>
+            <option value="bank_statement">Bank Statement</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">User ID Hash (SHA-256 of National ID)</label>
+          <input class="form-input" id="uid-hash" placeholder="64-hex SHA-256 of your national ID" style="font-family:var(--font-mono);font-size:12px;" value="b7e4d2c9f1a3e6b8d5c2f4a7e1b9d6c3f8a2e5b7d4c1f6a9e3b2d8c5f1a4e7b0">
+        </div>
+        <div class="zkp-indicator">
+          <span>🔏</span>
+          <div><strong>ZKP Proof:</strong> Generated from your biometric. Proves identity without revealing it.</div>
+        </div>
+        <button class="btn btn-green" onclick="simulateSubmit()" style="width:100%;justify-content:center;">
+          Submit to CLIP Ledger
+        </button>
+      </div>
+    </div>
+
+    <div id="submit-receipt" style="display:none;">
+      <div class="card" style="border-color:rgba(0,229,160,0.3);border-left:4px solid var(--green);">
+        <h3 style="color:var(--green);">✅ Submission Sealed</h3>
+        <div class="three-col" style="margin-top:8px;">
+          <div>
+            <div style="font-size:11px;color:var(--text3);font-family:var(--font-mono);margin-bottom:4px;">RECEIPT ID</div>
+            <div class="hash" style="font-size:11px;">rcpt_7f3a2b9c_new</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--text3);font-family:var(--font-mono);margin-bottom:4px;">BLOCK INDEX</div>
+            <div class="hash">#1044</div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--text3);font-family:var(--font-mono);margin-bottom:4px;">BLOCK HASH</div>
+            <div class="hash">c9d1e4f7…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECEIPTS -->
+  <div class="page" id="page-receipts">
+    <div class="page-header">
+      <h1>My Receipts</h1>
+      <p>Block proofs for all your sealed documents. No document content is stored — hashes only.</p>
+    </div>
+
+    <div class="receipt-card">
+      <span class="receipt-icon">🪪</span>
+      <div class="receipt-info">
+        <div class="receipt-id">rcpt_7f3a2b9c · Block #1043 · Merkle: a3f1d9c2…</div>
+        <div class="receipt-title">Aadhaar</div>
+        <div class="receipt-date">Sealed 17 Mar 2026, 14:00 UTC · chain_valid: true</div>
+      </div>
+      <span class="badge badge-green">sealed</span>
+    </div>
+    <div class="receipt-card">
+      <span class="receipt-icon">📋</span>
+      <div class="receipt-info">
+        <div class="receipt-id">rcpt_4d1e9f2a · Block #1039 · Merkle: 7c2e4138…</div>
+        <div class="receipt-title">Income Certificate</div>
+        <div class="receipt-date">Sealed 16 Mar 2026, 09:30 UTC · chain_valid: true</div>
+      </div>
+      <span class="badge badge-green">sealed</span>
+    </div>
+    <div class="receipt-card">
+      <span class="receipt-icon">🏠</span>
+      <div class="receipt-info">
+        <div class="receipt-id">rcpt_2c8b5e7d · Block #1031 · Merkle: 5f8b2a91…</div>
+        <div class="receipt-title">Property Deed</div>
+        <div class="receipt-date">Sealed 12 Mar 2026, 17:15 UTC · chain_valid: true</div>
+      </div>
+      <span class="badge badge-green">sealed</span>
+    </div>
+    <div class="receipt-card">
+      <span class="receipt-icon">🛂</span>
+      <div class="receipt-info">
+        <div class="receipt-id">rcpt_9a6f3c1e · Block #1018 · Merkle: 1d9f7e43…</div>
+        <div class="receipt-title">Passport</div>
+        <div class="receipt-date">Sealed 08 Mar 2026, 11:00 UTC · chain_valid: true</div>
+      </div>
+      <span class="badge badge-green">sealed</span>
+    </div>
+    <div class="receipt-card" style="border-left-color:var(--amber);">
+      <span class="receipt-icon">🏦</span>
+      <div class="receipt-info">
+        <div class="receipt-id">rcpt_1b7e4c3f · Queued locally · SQLCipher</div>
+        <div class="receipt-title">Bank Statement</div>
+        <div class="receipt-date">Queued offline 15 Mar 2026 · Will sync on reconnect</div>
+      </div>
+      <span class="badge badge-amber">pending</span>
+    </div>
+  </div>
+
+  <!-- VERIFY -->
+  <div class="page" id="page-verify">
+    <div class="page-header">
+      <h1>Verify Hash</h1>
+      <p>Check if a document hash exists in the CLIP ledger and view its block proof.</p>
+    </div>
+    <div class="card">
+      <h3>Verify Document Hash</h3>
+      <div class="form-group">
+        <label class="form-label">SHA-256 Document Hash</label>
+        <input class="form-input" id="verify-hash" placeholder="Enter 64-character hex hash…" style="font-family:var(--font-mono);font-size:12px;">
+      </div>
+      <button class="btn btn-primary" onclick="simulateVerify()">Verify on CLIP Ledger</button>
+    </div>
+    <div id="verify-output" style="display:none;"></div>
+  </div>
+  `;
+}
+
+/* ═══════ PARTNER PAGES ═══════ */
+function partnerPages() {
+  return `
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="page-header">
+      <h1>Partner Dashboard</h1>
+      <p>Verify documents and query citizen submission status via the CLIP ledger.</p>
+    </div>
+
+    <div class="alert alert-info">
+      <span class="alert-icon">🏛️</span>
+      <div>You have <strong>read-only access</strong> to the CLIP ledger. Document verification and status queries only. No write operations.</div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-card-label">Verifications Today</div>
+        <div class="stat-card-value stat-blue">284</div>
+        <div class="stat-card-meta">Rate limit: 100/min</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Verified ✓</div>
+        <div class="stat-card-value stat-up">281</div>
+        <div class="stat-card-meta">98.9% success rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Failed</div>
+        <div class="stat-card-value stat-warn">3</div>
+        <div class="stat-card-meta">Invalid hashes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Token TTL</div>
+        <div class="stat-card-value stat-blue">58m</div>
+        <div class="stat-card-meta">scope: verify + query</div>
+      </div>
+    </div>
+
+    <div class="data-table-wrap">
+      <div class="data-table-head"><h3>Recent Verifications</h3></div>
+      <table>
+        <thead><tr><th>Document Hash</th><th>Type</th><th>Block</th><th>Chain Valid</th><th>Verified At</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="hash">a3f1d9c2…</span></td>
+            <td>aadhaar</td>
+            <td><span class="hash">#1042</span></td>
+            <td><span class="badge badge-green">true</span></td>
+            <td style="color:var(--text2);font-size:12px;">17 Mar 2026, 14:02</td>
+          </tr>
+          <tr>
+            <td><span class="hash">7c2e4138…</span></td>
+            <td>passport</td>
+            <td><span class="hash">#1039</span></td>
+            <td><span class="badge badge-green">true</span></td>
+            <td style="color:var(--text2);font-size:12px;">17 Mar 2026, 13:45</td>
+          </tr>
+          <tr>
+            <td><span class="hash">2b9f6e1d…</span></td>
+            <td>income_certificate</td>
+            <td>—</td>
+            <td><span class="badge badge-red">false</span></td>
+            <td style="color:var(--text2);font-size:12px;">17 Mar 2026, 12:31</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- VERIFY -->
+  <div class="page" id="page-verify">
+    <div class="page-header">
+      <h1>Verify Document</h1>
+      <p>POST /partner/v1/verify/document — Verify a document hash against the CLIP ledger.</p>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Verification Request</h3>
+        <div class="form-group">
+          <label class="form-label">Document Hash (hex[64])</label>
+          <input class="form-input" id="p-doc-hash" placeholder="64-char SHA-256 hex…" style="font-family:var(--font-mono);font-size:12px;" value="a3f1d9c2e4b5f87c3d2e1a9f6b4c8e7d2a1f3c5b8e4d7a9f2c6e1b3d8a5f7c4e2">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Citizen ID Hash (hex[64])</label>
+          <input class="form-input" id="p-cit-hash" placeholder="SHA-256 of citizen national ID…" style="font-family:var(--font-mono);font-size:12px;" value="b7e4d2c9f1a3e6b8d5c2f4a7e1b9d6c3f8a2e5b7d4c1f6a9e3b2d8c5f1a4e7b0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Document Type</label>
+          <select class="form-input">
+            <option>aadhaar</option>
+            <option>passport</option>
+            <option>income_certificate</option>
+            <option>property_deed</option>
+            <option>bank_statement</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="partnerVerify()">Verify Document</button>
+      </div>
+      <div id="partner-verify-result">
+        <div class="verify-result" style="opacity:0.4;">
+          <div style="text-align:center;padding:40px;color:var(--text3);">
+            <div style="font-size:32px;margin-bottom:12px;">⊕</div>
+            <div>Submit a verification request to see results</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUERY -->
+  <div class="page" id="page-query">
+    <div class="page-header">
+      <h1>Query Citizen Status</h1>
+      <p>GET /partner/v1/query/citizen/status — Returns document types on record. No content exposed.</p>
+    </div>
+    <div class="card">
+      <h3>Citizen Status Query</h3>
+      <div class="two-col">
+        <div class="form-group">
+          <label class="form-label">Citizen ID Hash (hex[64])</label>
+          <input class="form-input" id="q-cit-hash" placeholder="SHA-256 of citizen national ID" style="font-family:var(--font-mono);font-size:12px;" value="b7e4d2c9f1a3e6b8d5c2f4a7e1b9d6c3f8a2e5b7d4c1f6a9e3b2d8c5f1a4e7b0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Filter by Document Type (optional)</label>
+          <select class="form-input">
+            <option value="">All types</option>
+            <option>aadhaar</option>
+            <option>passport</option>
+            <option>income_certificate</option>
+            <option>property_deed</option>
+            <option>bank_statement</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="queryStatus()">Query Status</button>
+      <div id="query-result" style="margin-top:20px;display:none;"></div>
+    </div>
+  </div>
+
+  <!-- RECEIPT LOOKUP -->
+  <div class="page" id="page-receipts">
+    <div class="page-header">
+      <h1>Receipt Lookup</h1>
+      <p>GET /partner/v1/query/receipt/{receipt_id} — Look up a specific receipt by ID.</p>
+    </div>
+    <div class="card">
+      <h3>Receipt Lookup</h3>
+      <div class="form-group">
+        <label class="form-label">Receipt ID</label>
+        <input class="form-input" id="p-rcpt-id" placeholder="rcpt_7f3a2b9c…" style="font-family:var(--font-mono);" value="rcpt_7f3a2b9c">
+      </div>
+      <button class="btn btn-primary" onclick="lookupReceipt()">Lookup Receipt</button>
+      <div id="rcpt-lookup-result" style="margin-top:20px;display:none;"></div>
+    </div>
+  </div>
+  `;
+}
+
+/* ═══════ ADMIN PAGES ═══════ */
+function adminPages() {
+  return `
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="page-header">
+      <h1>Admin Dashboard</h1>
+      <p>Full system access — monitor ledger health, manage users, and review audit trails.</p>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-card-label">Total Blocks</div>
+        <div class="stat-card-value stat-blue">1,043</div>
+        <div class="stat-card-meta">Latest sealed 2h ago</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Active Users</div>
+        <div class="stat-card-value stat-up">12,847</div>
+        <div class="stat-card-meta">+247 this week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Security Events</div>
+        <div class="stat-card-value stat-warn">3</div>
+        <div class="stat-card-meta">2 rate-limit, 1 bad token</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Revoked Tokens</div>
+        <div class="stat-card-value stat-purple">14</div>
+        <div class="stat-card-meta">This month</div>
+      </div>
+    </div>
+
+    <div class="ledger-chain-wrap" style="margin-bottom:24px;">
+      <div style="font-family:var(--font-display);font-size:15px;font-weight:700;margin-bottom:14px;">CLIP Ledger — Recent Blocks</div>
+      <div class="ledger-chain">
+        ${[1039,1040,1041,1042,1043].map((b,i) => `
+        <div class="block-node" style="${i===4?'border-color:rgba(0,229,160,0.4);':''}">
+          <div class="block-index">BLOCK</div>
+          <div class="block-hash-short">#${b}</div>
+          <div class="block-meta">tx: ${3+i} seals</div>
+          <div class="block-valid">✓ chain valid</div>
+        </div>
+        <div class="block-chain-gap"></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="data-table-wrap">
+        <div class="data-table-head"><h3>Recent Audit Events</h3></div>
+        <div style="padding:4px 0;">
+          ${[
+            {dot:'var(--green)',action:'Block #1043 sealed',meta:'17 Mar 2026 14:00 · 4 tx'},
+            {dot:'var(--blue)',action:'Partner org-ORG-001 verified aadhaar hash',meta:'17 Mar 2026 13:59'},
+            {dot:'var(--amber)',action:'Rate limit triggered on /auth/login',meta:'17 Mar 2026 13:45 · IP 103.x.x.x'},
+            {dot:'var(--purple)',action:'User provisioned: bank_officer role',meta:'17 Mar 2026 11:00'},
+            {dot:'var(--green)',action:'Block #1042 sealed',meta:'17 Mar 2026 10:30 · 3 tx'},
+          ].map(e => `
+          <div class="audit-row" style="padding:12px 16px;">
+            <div class="audit-dot" style="background:${e.dot}"></div>
+            <div>
+              <div class="audit-action">${e.action}</div>
+              <div class="audit-meta">${e.meta}</div>
+            </div>
+          </div>`).join('')}
+        </div>
+      </div>
+
+      <div class="data-table-wrap">
+        <div class="data-table-head"><h3>System Health</h3></div>
+        <div style="padding:16px;">
+          ${[
+            {label:'CLIP Ledger (gRPC 50051)', status:'Operational', color:'var(--green)'},
+            {label:'NBBS Risk Engine', status:'Operational', color:'var(--green)'},
+            {label:'Admin API (HTTPS)', status:'Operational', color:'var(--green)'},
+            {label:'Citizen API (HTTPS)', status:'Operational', color:'var(--green)'},
+            {label:'Partner API (mTLS)', status:'Operational', color:'var(--green)'},
+            {label:'RocksDB (Primary)', status:'Operational', color:'var(--green)'},
+            {label:'RocksDB (Replica)', status:'Degraded', color:'var(--amber)'},
+          ].map(s => `
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(30,47,80,0.4);font-size:13px;">
+            <span style="color:var(--text2);">${s.label}</span>
+            <span style="color:${s.color};font-size:12px;font-family:var(--font-mono);">● ${s.status}</span>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USERS -->
+  <div class="page" id="page-users">
+    <div class="page-header">
+      <h1>User Management</h1>
+      <p>Provision, retrieve and revoke user accounts. POST /admin/v1/users/provision</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'tab-list')">User List</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-provision')">Provision User</button>
+    </div>
+
+    <div class="tab-content active" id="tab-list">
+      <div class="data-table-wrap">
+        <div class="data-table-head">
+          <h3>Registered Users</h3>
+          <button class="btn btn-sm btn-outline">Export</button>
+        </div>
+        <table>
+          <thead><tr><th>User ID</th><th>Role</th><th>Organisation</th><th>MFA</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            ${[
+              {id:'usr_a1b2c3',role:'citizen',org:'CIT-ORG-001',mfa:'biometric',status:'active'},
+              {id:'usr_d4e5f6',role:'bank_officer',org:'HDFC-BRANCH-042',mfa:'totp',status:'active'},
+              {id:'usr_g7h8i9',role:'govt_official',org:'UIDAI-DELHI',mfa:'totp',status:'active'},
+              {id:'usr_j1k2l3',role:'bank_officer',org:'SBI-BRANCH-017',mfa:'totp',status:'revoked'},
+              {id:'usr_m4n5o6',role:'citizen',org:'CIT-ORG-002',mfa:'biometric',status:'active'},
+            ].map(u => `<tr>
+              <td><span class="hash">${u.id}</span></td>
+              <td><span class="badge ${u.role==='citizen'?'badge-green':u.role==='bank_officer'?'badge-blue':'badge-purple'}">${u.role}</span></td>
+              <td style="font-size:12px;color:var(--text2);">${u.org}</td>
+              <td><span class="badge badge-teal">${u.mfa}</span></td>
+              <td><span class="badge ${u.status==='active'?'badge-green':'badge-red'}">${u.status}</span></td>
+              <td>${u.status==='active' ? `<button class="btn btn-sm btn-danger" onclick="revokeUser('${u.id}')">Revoke</button>` : '—'}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-provision">
+      <div class="card">
+        <h3>Provision New User</h3>
+        <div class="two-col">
+          <div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input class="form-input" placeholder="user@org.in">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Role</label>
+              <select class="form-input">
+                <option>citizen</option>
+                <option>bank_officer</option>
+                <option>govt_official</option>
+                <option>admin</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Organisation ID</label>
+              <input class="form-input" placeholder="ORG-UUID-here">
+            </div>
+          </div>
+          <div>
+            <div class="form-group">
+              <label class="form-label">MFA Method</label>
+              <select class="form-input">
+                <option>totp</option>
+                <option>biometric</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Permissions</label>
+              <input class="form-input" placeholder='["read:documents","write:verify"]'>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Send Provisioning Email</label>
+              <select class="form-input"><option>Yes</option><option>No</option></select>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="showProvisionSuccess()">Provision User</button>
+        <div id="provision-ok" style="display:none;margin-top:16px;">
+          <div class="alert alert-success"><span class="alert-icon">✅</span><div>User provisioned successfully. Provisioning email sent.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUDIT -->
+  <div class="page" id="page-audit">
+    <div class="page-header">
+      <h1>Audit & Ledger</h1>
+      <p>Query CLIP ledger audit trail and verify block integrity. GET /admin/v1/audit/logs</p>
+    </div>
+
+    <div class="two-col" style="margin-bottom:24px;">
+      <div class="card" style="margin-bottom:0;">
+        <h3>Query Audit Logs</h3>
+        <div class="form-group">
+          <label class="form-label">From Block</label>
+          <input class="form-input" placeholder="0" value="1038" style="font-family:var(--font-mono);">
+        </div>
+        <div class="form-group">
+          <label class="form-label">To Block</label>
+          <input class="form-input" placeholder="latest" value="1043" style="font-family:var(--font-mono);">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Filter by User Hash (optional)</label>
+          <input class="form-input" placeholder="hex[64] SHA-256…" style="font-family:var(--font-mono);font-size:11px;">
+        </div>
+        <button class="btn btn-primary">Query Logs</button>
+      </div>
+      <div class="card" style="margin-bottom:0;">
+        <h3>Verify Block Integrity</h3>
+        <div class="form-group">
+          <label class="form-label">Block Index</label>
+          <input class="form-input" id="verify-block-idx" placeholder="1042" value="1042" style="font-family:var(--font-mono);">
+        </div>
+        <button class="btn btn-outline" onclick="verifyBlock()" style="margin-bottom:16px;">Verify Block Chain</button>
+        <div id="block-verify-result" style="display:none;">
+          <div class="verify-chain-row">
+            <span class="chain-icon" style="color:var(--green)">✓</span>
+            <span class="chain-label" style="color:var(--text2);">Block Index</span>
+            <span class="chain-value" style="color:var(--blue);">#1042</span>
+          </div>
+          <div class="verify-chain-row">
+            <span class="chain-icon" style="color:var(--green)">✓</span>
+            <span class="chain-label" style="color:var(--text2);">Merkle Root</span>
+            <span class="chain-value" style="color:var(--text2);">a3f1d9c2e4b5f87c…</span>
+          </div>
+          <div class="verify-chain-row">
+            <span class="chain-icon" style="color:var(--green)">✓</span>
+            <span class="chain-label" style="color:var(--text2);">Prev Hash</span>
+            <span class="chain-value" style="color:var(--text2);">7c2e4138b5d9f21a…</span>
+          </div>
+          <div class="verify-chain-row">
+            <span class="chain-icon" style="color:var(--green)">✓</span>
+            <span class="chain-label" style="color:var(--text2);">Chain Valid</span>
+            <span class="chain-value" style="color:var(--green);font-weight:600;">true</span>
+          </div>
+          <div class="alert alert-success" style="margin-top:12px;margin-bottom:0;"><span class="alert-icon">✅</span><div>Block integrity verified. Merkle root and prev_hash chain match.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-table-wrap">
+      <div class="data-table-head"><h3>CLIP Ledger — Blocks 1038–1043</h3></div>
+      <table>
+        <thead><tr><th>Block</th><th>Merkle Root</th><th>Prev Hash</th><th>Tx Count</th><th>Sealed At</th><th>Chain</th></tr></thead>
+        <tbody>
+          ${[
+            {b:1043,mr:'a3f1d9c2',ph:'7c2e4138',tx:4,ts:'17 Mar 2026 14:00'},
+            {b:1042,mr:'7c2e4138',ph:'5f8b2a91',tx:3,ts:'17 Mar 2026 10:30'},
+            {b:1041,mr:'5f8b2a91',ph:'2d7e1b4c',tx:5,ts:'16 Mar 2026 18:45'},
+            {b:1040,mr:'2d7e1b4c',ph:'9a3f6c2d',tx:2,ts:'16 Mar 2026 12:00'},
+            {b:1039,mr:'9a3f6c2d',ph:'4e1b8f5a',tx:6,ts:'16 Mar 2026 09:30'},
+            {b:1038,mr:'4e1b8f5a',ph:'c7d3a9e2',tx:3,ts:'15 Mar 2026 22:15'},
+          ].map(r=>`<tr>
+            <td><span class="hash">#${r.b}</span></td>
+            <td><span class="hash">${r.mr}…</span></td>
+            <td><span class="hash">${r.ph}…</span></td>
+            <td style="color:var(--text2);">${r.tx}</td>
+            <td style="font-size:12px;color:var(--text2);">${r.ts}</td>
+            <td><span class="badge badge-green">✓ valid</span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECURITY -->
+  <div class="page" id="page-security">
+    <div class="page-header">
+      <h1>Security Events</h1>
+      <p>AI-driven anomaly detection. NBBS flags and auto-bans suspicious activity.</p>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-card-label">Blocked IPs</div>
+        <div class="stat-card-value stat-warn">7</div>
+        <div class="stat-card-meta">Active bans</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Rate Limit Events</div>
+        <div class="stat-card-value" style="color:var(--amber);">23</div>
+        <div class="stat-card-meta">Last 24 hours</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Auth Failures</div>
+        <div class="stat-card-value stat-warn">11</div>
+        <div class="stat-card-meta">Last 24 hours</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Tamper Events</div>
+        <div class="stat-card-value stat-up">0</div>
+        <div class="stat-card-meta">All time</div>
+      </div>
+    </div>
+
+    <div class="data-table-wrap">
+      <div class="data-table-head"><h3>Security Event Log</h3></div>
+      <table>
+        <thead><tr><th>Time</th><th>Event</th><th>Source IP</th><th>Endpoint</th><th>Action</th></tr></thead>
+        <tbody>
+          ${[
+            {t:'14:02',ev:'Rate limit exceeded',sev:'warn',ip:'103.24.x.x',ep:'/auth/login',action:'IP throttled'},
+            {t:'13:45',ev:'Invalid TOTP — 3rd attempt',sev:'warn',ip:'49.37.x.x',ep:'/auth/mfa/verify',action:'Session locked'},
+            {t:'12:31',ev:'E002 — Invalid hash format',sev:'info',ip:'182.68.x.x',ep:'/verify/document',action:'Request rejected'},
+            {t:'11:00',ev:'E003 — Expired token used',sev:'warn',ip:'117.55.x.x',ep:'/admin/v1/users',action:'401 returned'},
+            {t:'09:15',ev:'TamperDetected event fired',sev:'danger',ip:'45.32.x.x',ep:'/citizen/v1/submit',action:'IP banned by NBBS'},
+            {t:'08:30',ev:'Rate limit exceeded',sev:'warn',ip:'103.24.x.x',ep:'/submit/batch',action:'Retry-After sent'},
+          ].map(e=>`<tr>
+            <td style="font-family:var(--font-mono);font-size:12px;color:var(--text2);">${e.t}</td>
+            <td><span style="font-size:13px;">${e.ev}</span></td>
+            <td><span class="hash">${e.ip}</span></td>
+            <td><span class="hash" style="font-size:11px;">${e.ep}</span></td>
+            <td><span class="badge ${e.sev==='danger'?'badge-red':e.sev==='warn'?'badge-amber':'badge-blue'}">${e.action}</span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  `;
+}
+
+/* ═══════════════ INTERACTIONS ═══════════════ */
+function simulateHash() {
+  document.getElementById('upload-zone').innerHTML = `
+    <div class="upload-icon">✓</div>
+    <div class="upload-text" style="color:var(--green);">income_certificate.pdf</div>
+    <div class="upload-sub">2.4 MB · SHA-256 computed on device</div>`;
+  document.getElementById('hash-result').style.display = 'block';
+}
+
+function simulateSubmit() {
+  document.getElementById('submit-receipt').style.display = 'block';
+  document.getElementById('submit-receipt').scrollIntoView({behavior:'smooth'});
+}
+
+function simulateVerify() {
+  const hash = document.getElementById('verify-hash').value || 'a3f1d9c2e4b5f87c3d2e1a9f6b4c8e7d2a1f3c5b8e4d7a9f2c6e1b3d8a5f7c4e2';
+  const out = document.getElementById('verify-output');
+  out.style.display = 'block';
+  out.innerHTML = `
+    <div class="verify-result">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+        <span style="font-size:28px;color:var(--green);">✅</span>
+        <div>
+          <div style="font-size:15px;font-weight:700;">Document Verified on CLIP Ledger</div>
+          <div style="font-size:12px;color:var(--text2);">Hash found. Chain integrity confirmed.</div>
+        </div>
+      </div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">Receipt ID</span><span class="chain-value" style="color:var(--blue);">rcpt_7f3a2b9c</span></div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">Block Index</span><span class="chain-value" style="color:var(--blue);">#1043</span></div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">Block Hash</span><span class="chain-value">${hash.slice(0,16)}…</span></div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">Merkle Root</span><span class="chain-value">a3f1d9c2e4b5f87c…</span></div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">Chain Valid</span><span class="chain-value" style="color:var(--green);font-weight:700;">true</span></div>
+    </div>`;
+}
+
+function partnerVerify() {
+  document.getElementById('partner-verify-result').innerHTML = `
+    <div class="verify-result" style="border:1px solid rgba(0,229,160,0.3);">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <span style="font-size:24px;color:var(--green)">✅</span>
+        <div style="font-size:15px;font-weight:700;">verified: true</div>
+      </div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">block_index</span><span class="chain-value" style="color:var(--blue);">#1042</span></div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">block_hash</span><span class="chain-value">a3f1d9c2…</span></div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">sealed_at</span><span class="chain-value">1741852800</span></div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">chain_valid</span><span class="chain-value" style="color:var(--green);font-weight:700;">true</span></div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--blue)">●</span><span class="chain-label">receipt_id</span><span class="chain-value" style="color:var(--blue);">rcpt_7f3a2b…</span></div>
+    </div>`;
+}
+
+function queryStatus() {
+  const el = document.getElementById('query-result');
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div class="alert alert-success" style="margin-bottom:0;"><span class="alert-icon">✅</span><div>
+      Citizen status retrieved. Documents on record: <strong>4</strong><br>
+      Types: <span class="badge badge-green" style="margin:0 4px;">aadhaar</span><span class="badge badge-blue" style="margin:0 4px;">passport</span><span class="badge badge-teal" style="margin:0 4px;">income_certificate</span><span class="badge badge-purple" style="margin:0 4px;">property_deed</span>
+    </div></div>`;
+}
+
+function lookupReceipt() {
+  const el = document.getElementById('rcpt-lookup-result');
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div class="verify-result">
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">receipt_id</span><span class="chain-value" style="color:var(--blue);">rcpt_7f3a2b9c</span></div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">doc_type</span><span class="chain-value">aadhaar</span></div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">block_index</span><span class="chain-value" style="color:var(--blue);">#1043</span></div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">merkle_root</span><span class="chain-value">a3f1d9c2…</span></div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">chain_valid</span><span class="chain-value" style="color:var(--green);font-weight:700;">true</span></div>
+      <div class="verify-chain-row"><span class="chain-icon" style="color:var(--green)">✓</span><span class="chain-label">status</span><span class="chain-value"><span class="badge badge-green">sealed</span></span></div>
+    </div>`;
+}
+
+function verifyBlock() {
+  document.getElementById('block-verify-result').style.display = 'block';
+}
+
+function revokeUser(id) {
+  if (confirm(`Revoke access for user ${id}? This will invalidate all active sessions.`)) {
+    alert(`User ${id} revoked. TamperDetected event logged to CLIP audit chain.`);
+  }
+}
+
+function showProvisionSuccess() {
+  document.getElementById('provision-ok').style.display = 'block';
+}
+
+function switchTab(btn, tabId) {
+  btn.closest('.page').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.closest('.page').querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+</script>
+</body>
+</html>
+`;
