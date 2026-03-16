@@ -854,25 +854,21 @@ option { background: var(--surface); }
     <h1 class="landing-inner">Secure Service Delivery Platform</h1>
     <p class="landing-sub">Zero-PII e-governance infrastructure. Blockchain-sealed records, biometric authentication, and ZKP-powered privacy — built for national scale.</p>
 
-    <div class="role-cards">
+    <div class="role-badge">
       <div class="role-card citizen" onclick="enterPortal('citizen')">
         <span class="role-card-icon">🟢</span>
         <div class="role-card-title">Citizen Portal</div>
         <div class="role-card-desc">Submit documents, view receipts and check blockchain verification status.</div>
         <span class="role-card-tag">Biometric + ZKP</span>
-      </div>
+      </div> 
+      <br>
       <div class="role-card partner" onclick="enterPortal('partner')">
         <span class="role-card-icon">🔵</span>
         <div class="role-card-title">Bank / Govt Portal</div>
         <div class="role-card-desc">Verify documents against the CLIP ledger and query citizen submission status.</div>
         <span class="role-card-tag">OAuth2 + mTLS</span>
       </div>
-      <div class="role-card admin" onclick="enterPortal('admin')">
-        <span class="role-card-icon">🟣</span>
-        <div class="role-card-title">Admin Portal</div>
-        <div class="role-card-desc">Full system access — user management, audit logs, and ledger oversight.</div>
-        <span class="role-card-tag">TOTP · 15 min TTL</span>
-      </div>
+      
     </div>
 
     <div class="landing-stats">
